@@ -6,7 +6,9 @@ interface ReceiptProps {
 }
 
 export default function Receipt({ data }: ReceiptProps) {
-  const currentLogo = '/logoMandy.png'; // Đảm bảo đường dẫn ảnh đúng
+  // import.meta.env.BASE_URL sẽ lấy giá trị 'base' từ vite.config.ts
+// Ví dụ: nếu base là '/mandycrimson/' thì đường dẫn sẽ tự đúng.
+const currentLogo = `${import.meta.env.BASE_URL}logoMandy.png`;
   const productCount = data.products.length;
   const isPickup = data.mode === 'pickup';
   const t = isPickup ? translations.receipt.pickup : translations.receipt.international;
