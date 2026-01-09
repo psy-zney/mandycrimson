@@ -6,6 +6,8 @@ import type { OrderData, ProductItem, OrderMode } from './types';
 import { translations } from './translations';
 
 export default function App() {
+  // Lấy đường dẫn chuẩn từ Vite
+const logoSrc = `${import.meta.env.BASE_URL}logoMandy.png`;
   const [orders, setOrders] = useState<OrderData[]>([]);
   const [fileName, setFileName] = useState<string | null>(null);
   const [mode, setMode] = useState<OrderMode>('pickup');
@@ -119,7 +121,7 @@ export default function App() {
         <div className="space-y-8">
           {/* Logo Display */}
           <div className="border border-stone-100 rounded-lg p-6 bg-stone-50 flex justify-center items-center">
-            <img src="logoMandy.png" alt="Mandy Logo" className="max-h-10 object-contain grayscale opacity-60" />
+<img src={logoSrc} alt="Mandy Logo"className="max-h-10 object-contain grayscale opacity-60" />
           </div>
 
           {/* Excel Upload Section */}
