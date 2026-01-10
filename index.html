@@ -10,6 +10,7 @@
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Crimson+Pro:ital,wght@0,200..900;1,200..900&display=swap" rel="stylesheet">
     <style>
+      /* Font và Body mặc định */
       body {
         font-family: 'Crimson Pro', serif;
         background-color: #fcfcfc;
@@ -17,59 +18,58 @@
         padding: 0;
       }
 
+      /* === CẤU HÌNH IN (QUAN TRỌNG NHẤT) === */
       @media print {
         @page {
           margin: 0;
-          size: 100mm 150mm; /* Khổ giấy dọc chuẩn */
+          size: 100mm 150mm; /* Khổ giấy A6 chuẩn */
         }
         
-        html, body {
-          height: auto !important;
-          margin: 0 !important;
-          padding: 0 !important;
-          background: white !important;
+        /* 1. Ẩn TOÀN BỘ giao diện web (nút, thanh bên, padding thừa...) */
+        body * {
+          visibility: hidden;
         }
 
-        #root {
-          height: auto !important;
-          width: 100% !important;
-          display: block !important;
+        /* 2. Chỉ hiện đúng container chứa nhãn */
+        .print-container, .print-container * {
+          visibility: visible;
         }
 
-        .no-print { display: none !important; }
-
-        /* Container chứa tất cả nhãn */
-        .print-container { 
-          display: block !important;
+        /* 3. Đưa container về góc 0,0 tuyệt đối -> Fix lỗi tờ trắng ĐẦU TIÊN */
+        .print-container {
+          position: absolute;
+          left: 0;
+          top: 0;
           width: 100mm !important;
-          height: auto !important;
           margin: 0 !important;
           padding: 0 !important;
         }
 
-        /* Mỗi nhãn là một khối trang in độc lập */
+        /* 4. Xóa khoảng cách giữa các nhãn -> Fix lỗi tờ trắng XEN KẼ */
+        .print-container > * {
+          margin-top: 0 !important;
+          margin-bottom: 0 !important;
+        }
+
+        /* 5. Cấu hình từng trang nhãn */
         .receipt-page { 
           display: flex !important;
-          flex-direction: column !important;
           width: 100mm !important;
-          height: 150mm !important;
-          page-break-after: always !important; /* Lệnh quan trọng để in nhiều nhãn */
+          height: 150mm !important; /* Chiều cao cố định */
+          page-break-after: always !important; /* Ngắt trang sau mỗi nhãn */
           page-break-inside: avoid !important;
-          align-items: center !important;
-          justify-content: flex-start !important;
-          overflow: hidden !important;
-          background: white !important;
-          position: relative !important;
+          margin: 0 !important;
+          border: none !important;
+          overflow: hidden !important; /* Cắt bỏ phần thừa nếu có */
         }
 
-        .receipt-page > div {
-          box-shadow: none !important;
-          border: none !important;
-          width: 100% !important;
-          height: 100% !important;
+        /* 6. Nhãn cuối cùng KHÔNG ngắt trang -> Fix lỗi tờ trắng CUỐI CÙNG */
+        .receipt-page:last-child {
+          page-break-after: auto !important;
         }
       }
 
+      /* Scrollbar đẹp cho màn hình preview */
       ::-webkit-scrollbar { width: 4px; }
       ::-webkit-scrollbar-track { background: #f1f1f1; }
       ::-webkit-scrollbar-thumb { background: #000; }
